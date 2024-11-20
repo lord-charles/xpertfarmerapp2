@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import { View, ScrollView as RNScrollView, StyleSheet } from "react-native";
-import { Text, Input, Button, Radio, Modal, VStack, HStack, Pressable } from "native-base";
-import FastImage from 'react-native-fast-image';
-import { icons } from '../../constants';
+import { Text, Input, Button, Radio, Modal, VStack, HStack } from "native-base";
 import SecondaryHeader from "../../components/headers/secondary-header";
+import { COLORS } from "../../constants/theme";
 
 export default function AddFlockDetailsScreen({ navigation }) {
   const [formData, setFormData] = useState({
     flockId: "",
     dateOfBirth: "",
-    gender: ""
+    gender: "",
   });
 
   const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = () => {
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
     setShowModal(true);
   };
 
@@ -23,12 +22,18 @@ export default function AddFlockDetailsScreen({ navigation }) {
     setFormData({
       flockId: "",
       dateOfBirth: "",
-      gender: ""
+      gender: "",
     });
     setShowModal(false);
   };
 
-  const renderFormField = (label, value, onChangeText, keyboardType = "default", placeholder = "") => (
+  const renderFormField = (
+    label,
+    value,
+    onChangeText,
+    keyboardType = "default",
+    placeholder = ""
+  ) => (
     <View style={styles.formField}>
       <Text style={styles.label}>{label}</Text>
       <Input
@@ -37,7 +42,7 @@ export default function AddFlockDetailsScreen({ navigation }) {
         keyboardType={keyboardType}
         placeholder={placeholder}
         style={styles.input}
-        backgroundColor="#e8f5e9"
+        backgroundColor={COLORS.green}
         borderWidth={0}
         fontSize="sm"
         height={10}
@@ -52,18 +57,26 @@ export default function AddFlockDetailsScreen({ navigation }) {
         <View style={styles.formContainer}>
           <Text style={styles.subtitle}>Fill in the flock details</Text>
 
-          {renderFormField("Flock ID / Poultry ID", formData.flockId,
-            (value) => setFormData(prev => ({ ...prev, flockId: value })))}
+          {renderFormField(
+            "Flock ID / Poultry ID",
+            formData.flockId,
+            (value) => setFormData((prev) => ({ ...prev, flockId: value }))
+          )}
 
-          {renderFormField("Date of Birth (DD/MM/YYYY)", formData.dateOfBirth,
-            (value) => setFormData(prev => ({ ...prev, dateOfBirth: value })))}
+          {renderFormField(
+            "Date of Birth (DD/MM/YYYY)",
+            formData.dateOfBirth,
+            (value) => setFormData((prev) => ({ ...prev, dateOfBirth: value }))
+          )}
 
           <View style={styles.formField}>
             <Text style={styles.label}>Gender</Text>
             <Radio.Group
               name="gender"
               value={formData.gender}
-              onChange={(value) => setFormData(prev => ({ ...prev, gender: value }))}
+              onChange={(value) =>
+                setFormData((prev) => ({ ...prev, gender: value }))
+              }
             >
               <VStack space={2}>
                 <Radio value="Male">
@@ -79,10 +92,26 @@ export default function AddFlockDetailsScreen({ navigation }) {
             </Radio.Group>
           </View>
 
-
-          <Button className="bg-emerald-600 border-0 py-3">
-            <Text className="font-semibold text-white">Submit</Text>
-          </Button>
+          <HStack space={3} mt={6} justifyContent="space-between">
+            <Button
+              flex={1}
+              variant="outline"
+              onPress={() => navigation.goBack()}
+              borderColor={COLORS.green2}
+              _text={{ color: COLORS.green2 }}
+            >
+              Back
+            </Button>
+            <Button
+              flex={1}
+              bg={COLORS.green2}
+              onPress={handleSubmit}
+              _text={{ color: "white" }}
+              style={styles.submitButton}
+            >
+              Submit
+            </Button>
+          </HStack>
         </View>
       </RNScrollView>
 
@@ -99,16 +128,20 @@ export default function AddFlockDetailsScreen({ navigation }) {
                   flex={1}
                   variant="outline"
                   onPress={() => navigation.goBack()}
+                  borderColor={COLORS.gray}
+                  _text={{ color: COLORS.gray }}
                   style={styles.modalButton}
                 >
-                  <Text color="#666">No</Text>
+                  No
                 </Button>
                 <Button
                   flex={1}
                   onPress={handleAddAnother}
+                  bg={COLORS.green2}
+                  _text={{ color: "white" }}
                   style={[styles.modalButton, styles.modalSubmitButton]}
                 >
-                  <Text color="white">Yes</Text>
+                  Yes
                 </Button>
               </HStack>
             </VStack>
@@ -122,32 +155,13 @@ export default function AddFlockDetailsScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e8f5e9',
-  },
-  headerContainer: {
-    backgroundColor: 'white',
-    paddingVertical: 40,
-    paddingHorizontal: 10,
-  },
-  headerTitle: {
-    fontSize: 18,
-    color: '#8bc34a',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    flex: 1,
-  },
-  greenLine: {
-    height: 2,
-    backgroundColor: '#8bc34a',
-    width: '100%',
-    alignSelf: 'center',
-    marginTop: 12,
+    backgroundColor: COLORS.green,
   },
   scrollView: {
     flex: 1,
   },
   formContainer: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     margin: 16,
     borderRadius: 12,
     padding: 32,
@@ -159,30 +173,23 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 14,
-    color: '#666',
+    color: COLORS.gray,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   formField: {
     marginBottom: 16,
   },
   label: {
     fontSize: 14,
-    color: '#333',
+    color: COLORS.black,
     marginBottom: 8,
   },
   input: {
     borderRadius: 8,
-  },
-  buttonContainer: {
-    marginTop: 24,
-  },
-  button: {
-    height: 45,
-    borderRadius: 8,
+    backgroundColor: COLORS.green,
   },
   submitButton: {
-    backgroundColor: '#8bc34a',
     borderWidth: 0,
   },
   modalContent: {
@@ -194,20 +201,19 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: '500',
-    color: '#333',
+    fontWeight: "500",
+    color: COLORS.black,
   },
   modalSubtitle: {
     fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
+    color: COLORS.gray,
+    textAlign: "center",
   },
   modalButton: {
     height: 45,
     borderRadius: 8,
   },
   modalSubmitButton: {
-    backgroundColor: '#8bc34a',
-    borderWidth: 0,
-  }
+    backgroundColor: COLORS.green2,
+  },
 });

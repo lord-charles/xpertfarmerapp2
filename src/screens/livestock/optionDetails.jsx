@@ -196,7 +196,7 @@ export default function OptionDetailsScreen({ navigation }) {
                     </View>
                 </TouchableOpacity>
 
-                <Button className=' mt-2' style={{ backgroundColor: COLORS.green }}>
+                <Button className=' mt-2' style={{ backgroundColor: COLORS.green2 }}>
                     <View className='flex-row items-center'>
                         <FastImage source={icons.cloud2} tintColor='white' className='h-[25px] w-[25px] mr-2' />
                         <Text className='text-white text-lg font-semibold'>Upload</Text>

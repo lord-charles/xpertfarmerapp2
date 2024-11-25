@@ -1,4 +1,5 @@
 import {Dimensions} from 'react-native';
+import { lightGreen100 } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 const {width, height} = Dimensions.get('window');
 
 export const COLORS = {
@@ -9,7 +10,7 @@ export const COLORS = {
   lightOrange: '#FFA133',
   lightOrange2: '#FDDED4',
   lightOrange3: '#FFD9AD',
-  green: '#27AE60',
+  green: '#e5f3e5',
   red: '#FF1717',
   blue: '#0064C0',
   darkBlue: '#111A2C',
@@ -30,7 +31,7 @@ export const COLORS = {
   primaryDark: '#2759ff',
   primaryLite: '#637aff99',
   accent: '#112233',
-  green2: '#039a83',
+  green2: '#8cd18c',
   light: '#EEEEEE',
   dark: '#333',
   lightRed: '#ff4f7e',
@@ -41,7 +42,7 @@ export const COLORS = {
   pink: '#ff4c98',
   gold: 'gold',
   line: '#282C35',
-
+lightGreen: '#f8f9fa',
   darkOverlayColor: 'rgba(0, 0, 0, 0.4)',
   darkOverlayColor2: 'rgba(0, 0, 0, 0.8)',
   lightOverlayColor: 'rgba(255, 255, 255, 0.6)',

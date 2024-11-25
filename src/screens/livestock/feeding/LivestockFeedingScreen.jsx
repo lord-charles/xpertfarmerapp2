@@ -1,260 +1,303 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput } from 'react-native';
-import { Button, Select, Input, Divider } from 'native-base';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { Image } from 'react-native';
-import { icons } from '../../../constants';
-import { COLORS } from '../../../constants/theme';
-import SecondaryHeader from '../../../components/headers/secondary-header';
+import React, { useState } from "react";
+import {
+  Box,
+  Text,
+  Input,
+  Button,
+  VStack,
+  Select,
+  ScrollView,
+  HStack,
+  Center,
+} from "native-base";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import SecondaryHeader from "../../../components/headers/secondary-header";
+import { View, TouchableOpacity } from "react-native";
+import { COLORS } from "../../../constants/theme";
 
-export default function LivestockFeedingScreen() {
-    const [feedType, setFeedType] = useState('');
-    const [feedSource, setFeedSource] = useState('');
-    const [feedingSchedule, setFeedingSchedule] = useState('');
-    const [quantity, setQuantity] = useState('');
-    const [unit, setUnit] = useState('');
-    const [costPerUnit, setCostPerUnit] = useState('');
-    const [totalCost, setTotalCost] = useState('');
-    const [supplierName, setSupplierName] = useState('');
-    const [feedingMethod, setFeedingMethod] = useState('');
-    const [storageLocation, setStorageLocation] = useState('');
-    const [nutritionalValue, setNutritionalValue] = useState('');
-    const [remarks, setRemarks] = useState('');
-    const [date, setDate] = useState(new Date());
-    const [showDatePicker, setShowDatePicker] = useState(false);
+export default function LivestockFeedingScreen({ navigation }) {
+  const [feedType, setFeedType] = useState("");
+  const [feedSource, setFeedSource] = useState("");
+  const [feedingSchedule, setFeedingSchedule] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [unit, setUnit] = useState("");
+  const [costPerUnit, setCostPerUnit] = useState("");
+  const [totalCost, setTotalCost] = useState("");
+  const [supplierName, setSupplierName] = useState("");
+  const [feedingMethod, setFeedingMethod] = useState("");
+  const [storageCost, setStorageCost] = useState("");
+  const [storageLocation, setStorageLocation] = useState("");
+  const [nutritionalValue, setNutritionalValue] = useState("");
+  const [remarks, setRemarks] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
-    const onDateChange = (event, selectedDate) => {
-        setShowDatePicker(false);
-        if (selectedDate) {
-            setDate(selectedDate);
-        }
+  const onDateChange = (event, selectedDate) => {
+    setShowDatePicker(false);
+    if (selectedDate) {
+      setDate(selectedDate);
+    }
+  };
+
+  const calculateTotalCost = () => {
+    const cost = parseFloat(quantity || 0) * parseFloat(costPerUnit || 0);
+    setTotalCost(cost ? cost.toFixed(2) : "");
+  };
+
+  const handleSubmit = () => {
+    const feedingData = {
+      feedType,
+      feedSource,
+      feedingSchedule,
+      quantity,
+      unit,
+      costPerUnit,
+      totalCost,
+      supplierName,
+      feedingMethod,
+      storageCost,
+      storageLocation,
+      nutritionalValue,
+      remarks,
+      date: date.toLocaleDateString(),
     };
+    console.log(feedingData);
+  };
 
-    const calculateTotalCost = () => {
-        const cost = parseFloat(quantity || 0) * parseFloat(costPerUnit || 0);
-        setTotalCost(cost ? cost.toFixed(2) : '');
-    };
+  return (
+    <View style={{ flex: 1, backgroundColor: COLORS.green }}>
+      <SecondaryHeader title="Livestock Feeding Record" />
 
-    const handleSubmit = () => {
-        const feedingData = {
-            feedType,
-            feedSource,
-            feedingSchedule,
-            quantity,
-            unit,
-            costPerUnit,
-            totalCost,
-            supplierName,
-            feedingMethod,
-            storageLocation,
-            nutritionalValue,
-            remarks,
-            date: date.toLocaleDateString(),
-        };
-        console.log(feedingData);
-        // Save or submit the data
-    };
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: "center",
+          paddingVertical: "5%",
+        }}
+      >
+        <Center>
+          <Box bg="white" p={4} borderRadius={8} shadow={2} w="90%" my="2%">
+            <Center mb={4}>
+              <Text fontSize="lg" >
+                Add Livestock Feeding Details
+              </Text>
+            </Center>
 
-    return (
-        <View className="flex-1 bg-white">
-            <SecondaryHeader title="Livestock Feeding Record" />
-            <ScrollView contentContainerStyle={styles.container}>
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Feed Type</Text>
-                    <Select
-                        selectedValue={feedType}
-                        onValueChange={(value) => setFeedType(value)}
-                        placeholder="Select Feed Type"
-                    >
-                        <Select.Item label="Grains" value="Grains" />
-                        <Select.Item label="Silage" value="Silage" />
-                        <Select.Item label="Supplements" value="Supplements" />
-                        <Select.Item label="Hay" value="Hay" />
-                        <Select.Item label="Pellets" value="Pellets" />
-                        <Select.Item label="Mash" value="Mash" />
-                        <Select.Item label="Cubes" value="Cubes" />
-                        <Select.Item label="Roots and Tubers" value="Roots and Tubers" />
-                        <Select.Item label="Green Forage" value="Green Forage" />
-                        <Select.Item label="Crop Residues" value="Crop Residues" />
-                        <Select.Item label="Concentrates" value="Concentrates" />
-                        <Select.Item label="Mineral Blocks" value="Mineral Blocks" />
-                        <Select.Item label="By-products" value="By-products" />
-                    </Select>
-                </View>
+            <VStack space={3}>
+              <Text fontSize="sm"  color="black">
+                Feed Type
+              </Text>
+              <Select
+                selectedValue={feedType}
+                minWidth="100%"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Select Feed Type"
+                onValueChange={(itemValue) => setFeedType(itemValue)}
+                _selectedItem={{
+                  bg: "teal.600",
+                  _text: { color: "white" },
+                }}
+              >
+                <Select.Item label="Grains" value="Grains" />
+                <Select.Item label="Silage" value="Silage" />
+                <Select.Item label="Supplements" value="Supplements" />
+                <Select.Item label="Hay" value="Hay" />
+              </Select>
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Feed Source</Text>
-                    <Select
-                        selectedValue={feedSource}
-                        onValueChange={(value) => setFeedSource(value)}
-                        placeholder="Select Feed Source"
-                    >
-                        <Select.Item label="Personal Grown" value="Personal Grown" />
-                        <Select.Item label="Purchased" value="Purchased" />
-                        <Select.Item label="Purchased & Grown" value="Purchased & Grown" />
-                        <Select.Item label="Donated" value="Donated" />
-                        <Select.Item label="Community Shared" value="Community Shared" />
-                        <Select.Item label="Government Provided" value="Government Provided" />
-                        <Select.Item label="Imported" value="Imported" />
-                        <Select.Item label="Local Market" value="Local Market" />
-                        <Select.Item label="Farmers' Cooperative" value="Farmers' Cooperative" />
-                    </Select>
-                </View>
+              <Text fontSize="sm"  color="black">
+                Feed Source
+              </Text>
+              <Select
+                selectedValue={feedSource}
+                minWidth="100%"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Select Feed Source"
+                onValueChange={(itemValue) => setFeedSource(itemValue)}
+                _selectedItem={{
+                  bg: "teal.600",
+                  _text: { color: "white" },
+                }}
+              >
+                <Select.Item label="Personal Grown" value="Personal Grown" />
+                <Select.Item label="Purchased" value="Purchased" />
+              </Select>
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Feeding Schedule</Text>
-                    <Select
-                        selectedValue={feedingSchedule}
-                        onValueChange={(value) => setFeedingSchedule(value)}
-                        placeholder="Select Feeding Schedule"
-                    >
-                        <Select.Item label="Early Morning (5-7 AM)" value="Early Morning" />
-                        <Select.Item label="Morning (7-9 AM)" value="Morning" />
-                        <Select.Item label="Mid-Day (11 AM-1 PM)" value="Mid-Day" />
-                        <Select.Item label="Afternoon (2-4 PM)" value="Afternoon" />
-                        <Select.Item label="Evening (5-7 PM)" value="Evening" />
-                        <Select.Item label="Night (7-9 PM)" value="Night" />
-                        <Select.Item label="Twice Daily (Morning & Evening)" value="Twice Daily" />
-                        <Select.Item label="Three Times Daily" value="Three Times Daily" />
-                        <Select.Item label="Free Choice/Ad Libitum" value="Free Choice" />
-                    </Select>
-                </View>
+              <Text fontSize="sm"  color="black">
+                Feeding Schedule
+              </Text>
+              <Input
+                variant="filled"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Enter Feeding Schedule"
+                value={feedingSchedule}
+                onChangeText={setFeedingSchedule}
+              />
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Quantity</Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Input
-                            placeholder="Enter Quantity"
-                            value={quantity}
-                            keyboardType="numeric"
-                            onChangeText={(value) => {
-                                setQuantity(value);
-                                calculateTotalCost();
-                            }}
-                            style={{ flex: 1 }}
-                        />
-                        <Select
-                            selectedValue={unit}
-                            onValueChange={(value) => setUnit(value)}
-                            placeholder="Unit"
-                            style={{ flex: 1, marginLeft: 10 }}
-                        >
-                            <Select.Item label="kg" value="kg" />
-                            <Select.Item label="ton" value="ton" />
-                            <Select.Item label="bale" value="bale" />
-                        </Select>
-                    </View>
-                </View>
+              <Text fontSize="sm"  color="black">
+                Quantity
+              </Text>
+              <HStack space={3}>
+                <Input
+                  flex={1}
+                  variant="filled"
+                  bg={COLORS.green}
+                  borderColor="gray.300"
+                  placeholder="Enter Quantity"
+                  value={quantity}
+                  onChangeText={(value) => {
+                    setQuantity(value);
+                    calculateTotalCost();
+                  }}
+                  keyboardType="numeric"
+                />
+                <Select
+                  flex={1}
+                  selectedValue={unit}
+                  bg={COLORS.green}
+                  borderColor="gray.300"
+                  placeholder="Unit"
+                  onValueChange={(itemValue) => setUnit(itemValue)}
+                  _selectedItem={{
+                    bg: "teal.600",
+                    _text: { color: "white" },
+                  }}
+                >
+                  <Select.Item label="kg" value="kg" />
+                  <Select.Item label="ton" value="ton" />
+                  <Select.Item label="bale" value="bale" />
+                </Select>
+              </HStack>
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Cost per Unit</Text>
-                    <Input
-                        placeholder="Enter Cost per Unit"
-                        value={costPerUnit}
-                        keyboardType="numeric"
-                        onChangeText={(value) => {
-                            setCostPerUnit(value);
-                            calculateTotalCost();
-                        }}
-                    />
-                </View>
+              <Text fontSize="sm"  color="black">
+                Cost per Unit
+              </Text>
+              <Input
+                variant="filled"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Enter Cost per Unit"
+                value={costPerUnit}
+                onChangeText={(value) => {
+                  setCostPerUnit(value);
+                  calculateTotalCost();
+                }}
+                keyboardType="numeric"
+              />
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Total Cost</Text>
-                    <Input
-                        value={totalCost}
-                        isReadOnly
-                        placeholder="Calculated Total Cost"
-                    />
-                </View>
+              <Text fontSize="sm"  color="black">
+                Total Cost
+              </Text>
+              <Input
+                variant="filled"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                value={totalCost}
+                isReadOnly
+                placeholder="Calculated Total Cost"
+              />
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Supplier Name</Text>
-                    <Input
-                        placeholder="Enter Supplier Name"
-                        value={supplierName}
-                        onChangeText={setSupplierName}
-                    />
-                </View>
+              <Text fontSize="sm"  color="black">
+                Storage Cost
+              </Text>
+              <Input
+                variant="filled"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Enter Storage Cost"
+                value={storageCost}
+                onChangeText={setStorageCost}
+                keyboardType="numeric"
+              />
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Feeding Method</Text>
-                    <Select
-                        selectedValue={feedingMethod}
-                        onValueChange={(value) => setFeedingMethod(value)}
-                        placeholder="Select Feeding Method"
-                    >
-                        <Select.Item label="Manual" value="Manual" />
-                        <Select.Item label="Automated" value="Automated" />
-                    </Select>
-                </View>
+              <Text fontSize="sm"  color="black">
+                Storage Location
+              </Text>
+              <Input
+                variant="filled"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Enter Storage Location"
+                value={storageLocation}
+                onChangeText={setStorageLocation}
+              />
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Storage Location</Text>
-                    <Input
-                        placeholder="Enter Storage Location"
-                        value={storageLocation}
-                        onChangeText={setStorageLocation}
-                    />
-                </View>
+              <Text fontSize="sm"  color="black">
+                Nutritional Value
+              </Text>
+              <Input
+                variant="filled"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Enter Nutritional Info (e.g., Protein %)"
+                value={nutritionalValue}
+                onChangeText={setNutritionalValue}
+              />
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Nutritional Value</Text>
-                    <Input
-                        placeholder="Enter Nutritional Info (e.g., Protein %)"
-                        value={nutritionalValue}
-                        onChangeText={setNutritionalValue}
-                    />
-                </View>
+              <Text fontSize="sm"  color="black">
+                Date
+              </Text>
+              <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+                <Input
+                  variant="filled"
+                  bg={COLORS.green}
+                  borderColor="gray.300"
+                  value={date.toLocaleDateString()}
+                  isReadOnly
+                  placeholder="Select Date"
+                />
+              </TouchableOpacity>
+              {showDatePicker && (
+                <DateTimePicker
+                  value={date}
+                  mode="date"
+                  onChange={onDateChange}
+                />
+              )}
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Date</Text>
-                    <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-                        <Input
-                            value={date.toLocaleDateString()}
-                            isReadOnly
-                            placeholder="Select Date"
-                        />
-                    </TouchableOpacity>
-                    {showDatePicker && (
-                        <DateTimePicker
-                            value={date}
-                            mode="date"
-                            onChange={onDateChange}
-                        />
-                    )}
-                </View>
+              <Text fontSize="sm"  color="black">
+                Remarks
+              </Text>
+              <Input
+                variant="filled"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Enter any remarks"
+                value={remarks}
+                onChangeText={setRemarks}
+                multiline
+                numberOfLines={3}
+              />
 
-                <View style={styles.formGroup}>
-                    <Text style={styles.label}>Remarks</Text>
-                    <Input
-                        placeholder="Enter any remarks"
-                        value={remarks}
-                        onChangeText={setRemarks}
-                        multiline
-                        numberOfLines={3}
-                    />
-                </View>
-
-                <Button onPress={handleSubmit} className="bg-green-600 border-0 py-3 mt-4">
-                    <Text className="font-semibold text-white">Submit</Text>
+              <HStack space={3} justifyContent="space-between" mt={4}>
+                <Button
+                  flex={1}
+                  variant="outline"
+                  onPress={() => navigation.goBack()}
+                  _text={{ color: COLORS.green2, fontSize: "md" }}
+                  borderColor={COLORS.green2}
+                  py="3"
+                  borderRadius="lg"
+                >
+                  Back
                 </Button>
-            </ScrollView>
-        </View>
-    );
+                <Button
+                  flex={1}
+                  onPress={handleSubmit}
+                  bg={COLORS.green2}
+                  _text={{ fontSize: "md" }}
+                  py="3"
+                  borderRadius="lg"
+                >
+                  Submit
+                </Button>
+              </HStack>
+            </VStack>
+          </Box>
+        </Center>
+      </ScrollView>
+    </View>
+  );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 16,
-        backgroundColor: '#F8F9FA',
-    },
-    formGroup: {
-        marginBottom: 16,
-    },
-    label: {
-        fontSize: 14,
-        color: '#333',
-        marginBottom: 8,
-    },
-});

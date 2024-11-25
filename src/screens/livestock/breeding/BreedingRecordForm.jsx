@@ -96,76 +96,73 @@ export default function BreedingRecordForm() {
           </Text>
           <Divider orientation="horizontal" />
 
-          <View className=" flex flex-row space-x-4 justify-between">
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Purpose of Breeding</Text>
+                    <View className=' flex flex-row justify-between'>
+                        <View style={styles.section}>
+                            <Text style={styles.sectionTitle}>Purpose of Breeding</Text>
 
-              <Checkbox.Group value={purposeOfBreeding}>
-                <Checkbox
-                  value="Improve Milk"
-                  my={1}
-                  isChecked={purposeOfBreeding.includes('Improve Milk')}
-                  onPress={() => handleCheckboxChange('Improve Milk')}>
-                  Improve Milk
-                </Checkbox>
+                            <Checkbox.Group value={purposeOfBreeding}
+                            >
+                                <Checkbox
+                                    value="Improve Milk"
+                                    isChecked={purposeOfBreeding.includes("Improve Milk")}
+                                    onPress={() => handleCheckboxChange("Improve Milk")}
+                                    size="sm"
+                                >
+                                    Improve Milk
+                                </Checkbox>
 
-                <Checkbox
-                  value="Stocking Number"
-                  my={1}
-                  isChecked={purposeOfBreeding.includes('Stocking Number')}
-                  onPress={() => handleCheckboxChange('Stocking Number')}>
-                  Stocking Number
-                </Checkbox>
+                                <Checkbox
+                                    value="Stocking Number"
+                                    isChecked={purposeOfBreeding.includes("Stocking Number")}
+                                    onPress={() => handleCheckboxChange("Stocking Number")}
+                                    size="sm"
+                                >
+                                    Stocking Number
+                                </Checkbox>
 
-                <Checkbox
-                  value="Immunity"
-                  my={1}
-                  isChecked={purposeOfBreeding.includes('Immunity')}
-                  onPress={() => handleCheckboxChange('Immunity')}>
-                  Immunity
-                </Checkbox>
-              </Checkbox.Group>
-            </View>
-            <Divider orientation="vertical" />
+                                <Checkbox
+                                    value="Immunity"
+                                    isChecked={purposeOfBreeding.includes("Immunity")}
+                                    onPress={() => handleCheckboxChange("Immunity")}
+                                    size="sm"
 
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Breeding Strategy</Text>
-              <Radio.Group
-                name="breedingStrategy"
-                accessibilityLabel="breeding strategy"
-                value={breedingStrategy}
-                onChange={setBreedingStrategy}>
-                <Radio value="Cross Breeding" my={1} className="text-[12px]">
-                  Cross Breeding
-                </Radio>
-                <Radio value="Within Breeds" my={1} className="text-[12px]">
-                  Within Breeds
-                </Radio>
-                <Radio value="Between Breeds" my={1} className="text-[12px]">
-                  Between Breeds
-                </Radio>
-              </Radio.Group>
-            </View>
-          </View>
-        </View>
-        <Divider orientation="horizontal" />
+                                >
+                                    Immunity
+                                </Checkbox>
+                            </Checkbox.Group>
+                        </View>
+                        <Divider orientation='vertical' />
 
-        <View style={styles.section} className="mt-2">
-          <Text style={styles.sectionTitle}>Servicing</Text>
-          <Radio.Group
-            name="servicing"
-            accessibilityLabel="servicing method"
-            value={servicing}
-            onChange={setServicing}
-            className="flex flex-row space-x-4">
-            <Radio value="Natural Mating" my={1}>
-              Natural Mating
-            </Radio>
-            <Radio value="Artificial Mating" my={1}>
-              Artificial Mating
-            </Radio>
-          </Radio.Group>
-        </View>
+                        <View style={styles.section}>
+                            <Text style={styles.sectionTitle}>Breeding Strategy</Text>
+                            <Radio.Group
+                                name="breedingStrategy"
+                                accessibilityLabel="breeding strategy"
+                                value={breedingStrategy}
+                                onChange={setBreedingStrategy}
+                            >
+                                <Radio value="Cross Breeding" my={1} size="sm">Cross Breeding</Radio>
+                                <Radio value="Within Breeds" my={1} size="sm">Within Breeds</Radio>
+                                <Radio value="Between Breeds" my={1} size="sm">Between Breeds</Radio>
+                            </Radio.Group>
+                        </View>
+                    </View>
+                </View>
+                <Divider orientation='horizontal' />
+
+                <View style={styles.section} className='mt-2'>
+                    <Text style={styles.sectionTitle}>Servicing</Text>
+                    <Radio.Group
+                        name="servicing"
+                        accessibilityLabel="servicing method"
+                        value={servicing}
+                        onChange={setServicing}
+                        className='flex flex-row space-x-1'
+                    >
+                        <Radio value="Natural Mating" my={1} size="sm">Natural Mating</Radio>
+                        <Radio value="Artificial Mating" my={1} size="sm">Artificial Mating</Radio>
+                    </Radio.Group>
+                </View>
 
         <View style={styles.formGroup}>
           <Text style={styles.label}>First Heat Date</Text>

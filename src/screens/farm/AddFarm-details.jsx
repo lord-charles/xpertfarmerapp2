@@ -10,13 +10,12 @@ import {
   Switch,
   ScrollView,
   HStack,
-  Center,
+  Fab,
 } from "native-base";
 import SecondaryHeader from "../../components/headers/secondary-header";
 import { View } from "react-native";
 import FastImage from "react-native-fast-image";
 import { icons } from "../../constants";
-import { COLORS } from '../../constants/theme';
 
 export default function AddFarmDetailsScreen({ navigation }) {
   const [enableLocation, setEnableLocation] = useState(false);
@@ -24,129 +23,96 @@ export default function AddFarmDetailsScreen({ navigation }) {
   const [selectedRegion, setSelectedRegion] = useState("");
   const [selectedDivision, setSelectedDivision] = useState("");
 
+
   return (
-    <View
-      style={{ flex: 1, backgroundColor: COLORS.green, justifyContent: "center" }}
-    >
+    <View>
       <SecondaryHeader title="Add Farm Details" />
 
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          justifyContent: "center",
-          paddingVertical: "5%",
-        }}
-      >
-        <Center>
-          <Box bg="white" p={4} borderRadius={8} shadow={2} w="90%" my="2%">
-            <Center mb={4}>
-              <Text fontSize="lg" >
-                Fill in the farm details
-              </Text>
-            </Center>
 
-            <VStack space={3}>
-              <Text fontSize="sm"  color="black">
-                Farm ID
-              </Text>
-              <Input
-                variant="filled"
-                bg={COLORS.green}
-                borderColor="gray.300"
-                isDisabled={true}
-                value="12345"
-              />
+      <ScrollView>
+        <Box bg="white" p={4} borderRadius={8} shadow={1} mb={8}>
+          <Text fontSize="md" color="gray.600" mb={4}>
+            Please fill in the farm details.
+          </Text>
 
-              <Text fontSize="sm"  color="black">
+          <VStack space={5}>
+            <Box>
+              <Text fontSize="sm" fontWeight="500" color="gray.700" mb={1}>
                 Region
               </Text>
               <Select
                 selectedValue={selectedRegion}
                 minWidth="100%"
-                bg={COLORS.green}
-                borderColor="gray.300"
-                placeholder="Region"
-                onValueChange={(itemValue) => setSelectedRegion(itemValue)}
+                bg="gray.50"
+                borderColor="gray.200"
+                placeholder="Select region"
                 _selectedItem={{
                   bg: "teal.600",
-                  endIcon: (
-                    <FastImage
-                      source={icons.right_arrow}
-                      style={{ width: 20, height: 20 }}
-                      tintColor="white"
-                    />
-                  ),
+                  endIcon: <FastImage source={icons.right_arrow} className="w-[20px] h-[20px]" tintColor='white' />
                 }}
+                onValueChange={setSelectedRegion}
               >
                 <Select.Item label="Region 1" value="region1" />
                 <Select.Item label="Region 2" value="region2" />
               </Select>
+            </Box>
 
-              <Text fontSize="sm"  color="black">
+            <Box>
+              <Text fontSize="sm" fontWeight="500" color="gray.700" mb={1}>
                 Division
               </Text>
               <Select
                 selectedValue={selectedDivision}
                 minWidth="100%"
-                bg={COLORS.green}
-                borderColor="gray.300"
-                placeholder="Division"
-                onValueChange={(itemValue) => setSelectedDivision(itemValue)}
+                bg="gray.50"
+                borderColor="gray.200"
+                placeholder="Select division"
                 _selectedItem={{
                   bg: "teal.600",
-                  endIcon: (
-                    <FastImage
-                      source={icons.right_arrow}
-                      style={{ width: 20, height: 20 }}
-                      tintColor="white"
-                    />
-                  ),
+                  endIcon: <FastImage source={icons.right_arrow} className="w-[20px] h-[20px]" tintColor='white' />
                 }}
+                onValueChange={setSelectedDivision}
               >
                 <Select.Item label="Division 1" value="division1" />
                 <Select.Item label="Division 2" value="division2" />
               </Select>
+            </Box>
 
-              <Text fontSize="sm"  color="black">
+            <Box>
+              <Text fontSize="sm" fontWeight="500" color="gray.700" mb={1}>
                 Administrative Location
               </Text>
               <Input
-                variant="filled"
-                bg={COLORS.green}
-                borderColor="gray.300"
-                placeholder="Administrative Location"
+                variant="outline"
+                bg="gray.50"
+                borderColor="gray.200"
+                placeholder="Enter Administrative Location"
               />
+            </Box>
 
-              <HStack justifyContent="space-between" alignItems="center">
-                <Text fontSize="sm"  color="black">
-                  Enable location
-                </Text>
-                <Switch
-                  isChecked={enableLocation}
-                  onToggle={() => setEnableLocation(!enableLocation)}
-                  offTrackColor="gray.200"
-                  onTrackColor="emerald.500"
-                  size="sm"
-                />
-              </HStack>
-
-              <Text fontSize="sm"  color="black">
+            <Box>
+              <Text fontSize="sm" fontWeight="500" color="gray.700" mb={1}>
                 Farm Size
               </Text>
               <Input
-                variant="filled"
-                bg={COLORS.green}
-                borderColor="gray.300"
-                placeholder="Farm Size"
+                variant="outline"
+                bg="gray.50"
+                borderColor="gray.200"
+                placeholder="Enter Farm Size"
                 keyboardType="numeric"
                 value={farmSize}
                 onChangeText={setFarmSize}
               />
+            </Box>
 
+            <Box>
+              <Text fontSize="sm" fontWeight="500" color="gray.700" mb={2}>
+                Types of Farming
+              </Text>
+              <Text fontSize="xs" color="gray.600" mb={2}>
+                Select one or more types of farming
+              </Text>
               <VStack space={2}>
-                <Text fontSize="sm" fontWeight="500" color="black">
-                  Types of Farming
-                </Text>
                 <Checkbox value="dairy-cattle">Dairy cattle</Checkbox>
                 <Checkbox value="beef-cattle">Beef cattle</Checkbox>
                 <Checkbox value="dairy-meat-goat">Dairy and Meat goat</Checkbox>
@@ -155,33 +121,48 @@ export default function AddFarmDetailsScreen({ navigation }) {
                 <Checkbox value="rabbit">Rabbit</Checkbox>
                 <Checkbox value="pigs">Pigs (Swine)</Checkbox>
               </VStack>
+            </Box>
 
-              <HStack space={3} justifyContent="space-between" mt={4}>
-                <Button
-                  flex={1}
-                  variant="outline"
-                  onPress={() => navigation.goBack()}
-                  _text={{ color: "emerald.600", fontSize: "md" }}
-                  borderColor="emerald.600"
-                  py="3"
-                  borderRadius="lg"
-                >
-                  Back
-                </Button>
-                <Button
-                  flex={1}
-                  onPress={() => console.log("Saving...")}
-                 backgroundColor={COLORS.green2}
-                  _text={{ fontSize: "md" }}
-                  py="3"
-                  borderRadius="lg"
-                >
-                  Submit
-                </Button>
-              </HStack>
-            </VStack>
-          </Box>
-        </Center>
+            <Box>
+              <Text fontSize="sm" fontWeight="500" color="gray.700" mb={1}>
+                Region
+              </Text>
+              <Select
+                selectedValue={selectedRegion}
+                minWidth="100%"
+                bg="gray.50"
+                borderColor="gray.200"
+                placeholder="Select region"
+                _selectedItem={{
+                  bg: "teal.600",
+                  endIcon: <FastImage source={icons.right_arrow} className="w-[20px] h-[20px]" tintColor='white' />
+                }}
+                onValueChange={setSelectedRegion}
+              >
+                <Select.Item label="Region 1" value="region1" />
+                <Select.Item label="Region 2" value="region2" />
+              </Select>
+            </Box>
+
+
+            <HStack justifyContent="space-between" mt={0}>
+
+              <Button
+                // isDisabled={!isFormComplete}
+                width="100%"
+                bg="emerald.600"
+
+              >
+                Save
+              </Button>
+            </HStack>
+
+
+
+
+          </VStack>
+        </Box>
+        <View className="h-[60px]" />
       </ScrollView>
     </View>
   );

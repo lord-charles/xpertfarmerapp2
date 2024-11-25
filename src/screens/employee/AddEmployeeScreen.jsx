@@ -1,53 +1,37 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Platform } from 'react-native';
-import { Input, Button, Checkbox, VStack, HStack } from 'native-base';
-import FastImage from 'react-native-fast-image';
+import React, { useState } from "react";
+import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { Text, Input, Button, Select, CheckIcon } from "native-base";
+import FastImage from "react-native-fast-image";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import SecondaryHeader from '../../components/headers/secondary-header';
-import icons from '../../constants/icons';
-import { COLORS } from '../../constants/theme';
+import SecondaryHeader from "../../components/headers/secondary-header";
+import { icons } from "../../constants";
 
-export default function AddEmployeeScreen({ navigation }) {
-  const [formData, setFormData] = useState({
-    farmId: '',
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
-    dateOfEmployment: new Date(),
-    workingHours: {
-      FullTime: false,
-      MorningEvening: false,
-      WeekendsOnly: false,
-      HarvestPeriodsOnly: false
-    },
-    paymentRates: ''
-  });
+const AddEmployeeScreen = ({ navigation }) => {
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [dateOfEmployment, setDateOfEmployment] = useState("");
+  const [paymentRate, setPaymentRate] = useState("");
+  const [workingHour, setWorkingHour] = useState("");
+  const [position, setPosition] = useState("");
+  const [employmentType, setEmploymentType] = useState("");
+  const [emergencyContact, setEmergencyContact] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [date, setDate] = useState(new Date());
 
-  const handleDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate || formData.dateOfEmployment; 
-    setShowDatePicker(Platform.OS === 'ios'); 
-    setFormData({ ...formData, dateOfEmployment: currentDate });
-  };
-
-  const toggleWorkingHour = (key) => {
-    setFormData({
-      ...formData,
-      workingHours: {
-        ...formData.workingHours,
-        [key]: !formData.workingHours[key]
-      }
-    });
+  const onDateChange = (event, selectedDate) => {
+    setShowDatePicker(false);
+    if (selectedDate) {
+      setDate(selectedDate);
+      setDateOfEmployment(selectedDate.toLocaleDateString());
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <SecondaryHeader title="Add Employee Details" />
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <VStack space={4} style={styles.formContainer}>
-          <Text style={styles.headerText}>Fill in the employee details</Text>
-
-          <Text style={styles.label}>Attached Farm ID</Text>
+    <View className="flex-1 bg-white">
+      <SecondaryHeader title="Add Employee" />
+      <ScrollView className="p-4">
+        <View style={styles.formField}>
+          <Text style={styles.label}>Full Name</Text>
           <Input
             variant="unstyled"
             value={formData.farmId}
@@ -64,15 +48,57 @@ export default function AddEmployeeScreen({ navigation }) {
             style={styles.input}
           />
 
-          <Text style={styles.label}>Last Name</Text>
+        <View style={styles.formField}>
+          <Text style={styles.label}>Date of Employment</Text>
+          <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+            <Input
+              value={dateOfEmployment}
+              isReadOnly
+              placeholder="Select Date"
+              style={styles.input}
+              backgroundColor="#e8f5e9"
+            />
+          </TouchableOpacity>
+          {showDatePicker && (
+            <DateTimePicker
+              value={date}
+              mode="date"
+              onChange={onDateChange}
+            />
+          )}
+        </View>
+
+        <View style={styles.formField}>
+          <Text style={styles.label}>Emergency Contact</Text>
           <Input
-            variant="unstyled"
-            value={formData.lastName}
-            onChangeText={(text) => setFormData({ ...formData, lastName: text })}
+            value={emergencyContact}
+            onChangeText={setEmergencyContact}
+            placeholder="Emergency Contact"
+            keyboardType="phone-pad"
             style={styles.input}
           />
 
-          <Text style={styles.label}>Phone Number</Text>
+        <View style={styles.formField}>
+          <Text style={styles.label}>Employment Type</Text>
+          <Select
+            selectedValue={employmentType}
+            minWidth="200"
+            accessibilityLabel="Select Employment Type"
+            placeholder="Select Employment Type"
+            _selectedItem={{
+              bg: "teal.600",
+              endIcon: <FastImage source={icons.right_arrow} className="w-[20px] h-[20px]" tintColor='white' />
+            }}
+            mt={1}
+            onValueChange={setEmploymentType}
+          >
+            <Select.Item label="Permanent" value="permanent" />
+            <Select.Item label="Contractual" value="contractual" />
+          </Select>
+        </View>
+
+        <View style={styles.formField}>
+          <Text style={styles.label}>Position</Text>
           <Input
             variant="unstyled"
             value={formData.phoneNumber}
@@ -123,13 +149,14 @@ export default function AddEmployeeScreen({ navigation }) {
             onChangeText={(text) => setFormData({ ...formData, paymentRates: text })}
             keyboardType="numeric"
             style={styles.input}
+            backgroundColor="#e8f5e9"
           />
+        </View>
 
-          <HStack space={2} style={styles.buttonContainer}>
-            <Button onPress={() => navigation.goBack()} style={styles.backButton} variant="outline">Back</Button>
-            <Button onPress={() => console.log('Form Data:', formData)} style={styles.submitButton}>Submit</Button>
-          </HStack>
-        </VStack>
+        <Button className="bg-emerald-600 rounded-md h-12 justify-center">
+          <Text className="text-white font-semibold">Submit</Text>
+        </Button>
+        <View className="h-[60px]" />
       </ScrollView>
     </View>
   );

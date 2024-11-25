@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,14 +7,14 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import {Button, Checkbox, Divider, Input, Radio} from 'native-base';
+import { Button, Checkbox, Divider, Input, Radio } from 'native-base';
 import SecondaryHeader from '../../../components/headers/secondary-header';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {Image} from 'react-native';
-import {icons} from '../../../constants';
-import {COLORS} from '../../../constants/theme';
+import { Image } from 'react-native';
+import { icons } from '../../../constants';
+import { COLORS } from '../../../constants/theme';
 
-export default function BreedingRecordForm() {
+export default function BreedingRecordForm({ navigation }) {
   const [purposeOfBreeding, setPurposeOfBreeding] = useState([]);
   const [breedingStrategy, setBreedingStrategy] = useState('');
   const [servicing, setServicing] = useState('');
@@ -54,10 +54,11 @@ export default function BreedingRecordForm() {
     };
     console.log(formData);
   };
-  const handleCheckboxChange = value => {
-    setPurposeOfBreeding(prev =>
+
+  const handleCheckboxChange = (value) => {
+    setPurposeOfBreeding((prev) =>
       prev.includes(value)
-        ? prev.filter(item => item !== value)
+        ? prev.filter((item) => item !== value)
         : [...prev, value],
     );
   };
@@ -96,73 +97,71 @@ export default function BreedingRecordForm() {
           </Text>
           <Divider orientation="horizontal" />
 
-                    <View className=' flex flex-row justify-between'>
-                        <View style={styles.section}>
-                            <Text style={styles.sectionTitle}>Purpose of Breeding</Text>
+          <View className='flex flex-row justify-between'>
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Purpose of Breeding</Text>
 
-                            <Checkbox.Group value={purposeOfBreeding}
-                            >
-                                <Checkbox
-                                    value="Improve Milk"
-                                    isChecked={purposeOfBreeding.includes("Improve Milk")}
-                                    onPress={() => handleCheckboxChange("Improve Milk")}
-                                    size="sm"
-                                >
-                                    Improve Milk
-                                </Checkbox>
+              <Checkbox.Group value={purposeOfBreeding}>
+                <Checkbox
+                  value="Improve Milk"
+                  isChecked={purposeOfBreeding.includes("Improve Milk")}
+                  onPress={() => handleCheckboxChange("Improve Milk")}
+                  size="sm"
+                >
+                  Improve Milk
+                </Checkbox>
 
-                                <Checkbox
-                                    value="Stocking Number"
-                                    isChecked={purposeOfBreeding.includes("Stocking Number")}
-                                    onPress={() => handleCheckboxChange("Stocking Number")}
-                                    size="sm"
-                                >
-                                    Stocking Number
-                                </Checkbox>
+                <Checkbox
+                  value="Stocking Number"
+                  isChecked={purposeOfBreeding.includes("Stocking Number")}
+                  onPress={() => handleCheckboxChange("Stocking Number")}
+                  size="sm"
+                >
+                  Stocking Number
+                </Checkbox>
 
-                                <Checkbox
-                                    value="Immunity"
-                                    isChecked={purposeOfBreeding.includes("Immunity")}
-                                    onPress={() => handleCheckboxChange("Immunity")}
-                                    size="sm"
+                <Checkbox
+                  value="Immunity"
+                  isChecked={purposeOfBreeding.includes("Immunity")}
+                  onPress={() => handleCheckboxChange("Immunity")}
+                  size="sm"
+                >
+                  Immunity
+                </Checkbox>
+              </Checkbox.Group>
+            </View>
+            <Divider orientation='vertical' />
 
-                                >
-                                    Immunity
-                                </Checkbox>
-                            </Checkbox.Group>
-                        </View>
-                        <Divider orientation='vertical' />
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Breeding Strategy</Text>
+              <Radio.Group
+                name="breedingStrategy"
+                accessibilityLabel="breeding strategy"
+                value={breedingStrategy}
+                onChange={setBreedingStrategy}
+              >
+                <Radio value="Cross Breeding" my={1} size="sm">Cross Breeding</Radio>
+                <Radio value="Within Breeds" my={1} size="sm">Within Breeds</Radio>
+                <Radio value="Between Breeds" my={1} size="sm">Between Breeds</Radio>
+              </Radio.Group>
+            </View>
+          </View>
+        </View>
+        <Divider orientation='horizontal' />
 
-                        <View style={styles.section}>
-                            <Text style={styles.sectionTitle}>Breeding Strategy</Text>
-                            <Radio.Group
-                                name="breedingStrategy"
-                                accessibilityLabel="breeding strategy"
-                                value={breedingStrategy}
-                                onChange={setBreedingStrategy}
-                            >
-                                <Radio value="Cross Breeding" my={1} size="sm">Cross Breeding</Radio>
-                                <Radio value="Within Breeds" my={1} size="sm">Within Breeds</Radio>
-                                <Radio value="Between Breeds" my={1} size="sm">Between Breeds</Radio>
-                            </Radio.Group>
-                        </View>
-                    </View>
-                </View>
-                <Divider orientation='horizontal' />
-
-                <View style={styles.section} className='mt-2'>
-                    <Text style={styles.sectionTitle}>Servicing</Text>
-                    <Radio.Group
-                        name="servicing"
-                        accessibilityLabel="servicing method"
-                        value={servicing}
-                        onChange={setServicing}
-                        className='flex flex-row space-x-1'
-                    >
-                        <Radio value="Natural Mating" my={1} size="sm">Natural Mating</Radio>
-                        <Radio value="Artificial Mating" my={1} size="sm">Artificial Mating</Radio>
-                    </Radio.Group>
-                </View>
+        <View style={styles.section} className='mt-2'>
+          <Text style={styles.sectionTitle}>Servicing</Text>
+          <Radio.Group
+            name="servicing"
+            accessibilityLabel="servicing method"
+            value={servicing}
+            onChange={setServicing}
+            className='flex flex-row space-x-1'
+          >
+            <Radio value="Natural Mating" my={1} size="sm">Natural Mating</Radio>
+            <Radio value="Artificial Mating" my={1} size="sm">Artificial Mating</Radio>
+          </Radio.Group>
+        </View>
 
         <View style={styles.formGroup}>
           <Text style={styles.label}>First Heat Date</Text>
@@ -326,9 +325,20 @@ export default function BreedingRecordForm() {
           </Radio.Group>
         </View>
 
-        <Button className="bg-emerald-600 border-0 py-3">
-          <Text className="font-semibold text-white">Submit</Text>
-        </Button>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={[styles.button, styles.cancelButton]}
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={styles.buttonbackText}>Back</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, styles.submitButton]}
+            onPress={handleSubmit}
+          >
+            <Text style={styles.buttonText}>Submit</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );
@@ -338,12 +348,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     backgroundColor: '#F8F9FA',
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#4A90E2',
-    marginBottom: 16,
   },
   section: {
     marginBottom: 20,
@@ -378,13 +382,22 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   cancelButton: {
-    backgroundColor: '#E0E0E0',
+    borderColor: COLORS.green2, 
+    borderWidth: 1,
+
   },
   submitButton: {
-    backgroundColor: '#4A90E2',
+    backgroundColor: COLORS.green2, 
+    borderColor: COLORS.green2, 
+    borderWidth: 1, 
   },
   buttonText: {
-    color: '#FFF',
+    color: '#FFF', 
     fontWeight: '600',
   },
+  buttonbackText:{
+    color:COLORS.green2,
+    fontWeight: '600',
+
+  }
 });

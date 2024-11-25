@@ -1,243 +1,236 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
-import { Text, Input, Button, Select, CheckIcon } from "native-base";
-import FastImage from "react-native-fast-image";
-import DateTimePicker from '@react-native-community/datetimepicker';
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import {
+  Box,
+  Text,
+  Input,
+  Button,
+  VStack,
+  HStack,
+  Select,
+  Center,
+} from "native-base";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import SecondaryHeader from "../../components/headers/secondary-header";
 import { icons } from "../../constants";
+import FastImage from "react-native-fast-image";
+import { COLORS } from "../../constants/theme";
 
-const AddEmployeeScreen = ({ navigation }) => {
+const AddEmployeeDetails = ({ navigation }) => {
   const [fullName, setFullName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [dateOfEmployment, setDateOfEmployment] = useState("");
-  const [paymentRate, setPaymentRate] = useState("");
-  const [workingHour, setWorkingHour] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [emergencyContact, setEmergencyContact] = useState("");
+  const [dateOfEmployment, setDateOfEmployment] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [position, setPosition] = useState("");
   const [employmentType, setEmploymentType] = useState("");
-  const [emergencyContact, setEmergencyContact] = useState("");
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [workingHours, setWorkingHours] = useState("");
+  const [paymentRate, setPaymentRate] = useState("");
+  const [administrativeLocation, setAdministrativeLocation] = useState("");
 
   const onDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
     if (selectedDate) {
-      setDate(selectedDate);
-      setDateOfEmployment(selectedDate.toLocaleDateString());
+      setDateOfEmployment(selectedDate);
     }
   };
 
+  const handleSubmit = () => {
+    const employeeData = {
+      fullName,
+      phoneNumber,
+      emergencyContact,
+      dateOfEmployment: dateOfEmployment.toLocaleDateString(),
+      position,
+      employmentType,
+      workingHours,
+      paymentRate,
+      administrativeLocation,
+    };
+    console.log(employeeData);
+  };
+
   return (
-    <View className="flex-1 bg-white">
-      <SecondaryHeader title="Add Employee" />
-      <ScrollView className="p-4">
-        <View style={styles.formField}>
-          <Text style={styles.label}>Full Name</Text>
-          <Input
-            variant="unstyled"
-            value={formData.farmId}
-            onChangeText={(text) => setFormData({ ...formData, farmId: text })}
-            placeholder="Attached Farm ID"
-            style={styles.input}
-          />
+    <View style={{ flex: 1, backgroundColor: COLORS.green, justifyContent: "center" }}>
+      <SecondaryHeader title="Add Employee Details" />
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: "center",
+          paddingVertical: "5%",
+        }}
+      >
+        <Center>
+          <Box bg="white" p={4} borderRadius={8} shadow={2} w="90%" my="2%">
+            <Center mb={4}>
+              <Text fontSize="lg">
+                Add Employee Information
+              </Text>
+            </Center>
 
-          <Text style={styles.label}>First Name</Text>
-          <Input
-            variant="unstyled"
-            value={formData.firstName}
-            onChangeText={(text) => setFormData({ ...formData, firstName: text })}
-            style={styles.input}
-          />
-
-        <View style={styles.formField}>
-          <Text style={styles.label}>Date of Employment</Text>
-          <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-            <Input
-              value={dateOfEmployment}
-              isReadOnly
-              placeholder="Select Date"
-              style={styles.input}
-              backgroundColor="#e8f5e9"
-            />
-          </TouchableOpacity>
-          {showDatePicker && (
-            <DateTimePicker
-              value={date}
-              mode="date"
-              onChange={onDateChange}
-            />
-          )}
-        </View>
-
-        <View style={styles.formField}>
-          <Text style={styles.label}>Emergency Contact</Text>
-          <Input
-            value={emergencyContact}
-            onChangeText={setEmergencyContact}
-            placeholder="Emergency Contact"
-            keyboardType="phone-pad"
-            style={styles.input}
-          />
-
-        <View style={styles.formField}>
-          <Text style={styles.label}>Employment Type</Text>
-          <Select
-            selectedValue={employmentType}
-            minWidth="200"
-            accessibilityLabel="Select Employment Type"
-            placeholder="Select Employment Type"
-            _selectedItem={{
-              bg: "teal.600",
-              endIcon: <FastImage source={icons.right_arrow} className="w-[20px] h-[20px]" tintColor='white' />
-            }}
-            mt={1}
-            onValueChange={setEmploymentType}
-          >
-            <Select.Item label="Permanent" value="permanent" />
-            <Select.Item label="Contractual" value="contractual" />
-          </Select>
-        </View>
-
-        <View style={styles.formField}>
-          <Text style={styles.label}>Position</Text>
-          <Input
-            variant="unstyled"
-            value={formData.phoneNumber}
-            onChangeText={(text) => setFormData({ ...formData, phoneNumber: text })}
-            keyboardType="phone-pad"
-            style={styles.input}
-          />
-
-          <Text style={styles.label}>Date of Employment</Text>
-          <View style={styles.inputWithIcon}>
-            <Text style={styles.inputText}>{formData.dateOfEmployment.toLocaleDateString()}</Text>
-            <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-              <FastImage
-                source={icons.calendar}
-                style={styles.icon}
-                resizeMode={FastImage.resizeMode.contain}
+            <VStack space={3}>
+              <Text fontSize="sm" color="black">Full Name</Text>
+              <Input
+                variant="filled"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Enter Full Name"
+                value={fullName}
+                onChangeText={setFullName}
               />
-            </TouchableOpacity>
-          </View>
-          {showDatePicker && (
-            <DateTimePicker
-              value={formData.dateOfEmployment}
-              mode="date"
-              display="default"
-              onChange={handleDateChange}
-            />
-          )}
 
-          <Text style={styles.label}>Working Hours</Text>
-          <Text style={styles.subLabel}>Select the type of working hours</Text>
-          <VStack space={3}>
-            {Object.keys(formData.workingHours).map((key) => (
-              <Checkbox
-                key={key}
-                isChecked={formData.workingHours[key]}
-                onChange={() => toggleWorkingHour(key)}
-                style={styles.checkbox}
+              <Text fontSize="sm" color="black">Phone Number</Text>
+              <Input
+                variant="filled"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Enter Phone Number"
+                keyboardType="phone-pad"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+              />
+
+              <Text fontSize="sm" color="black">Emergency Contact</Text>
+              <Input
+                variant="filled"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Enter Emergency Contact"
+                keyboardType="phone-pad"
+                value={emergencyContact}
+                onChangeText={setEmergencyContact}
+              />
+
+              <Text fontSize="sm" color="black">Date of Employment</Text>
+              <TouchableOpacity onPress={() => setShowDatePicker(true)}>
+                <Input
+                  variant="filled"
+                  bg={COLORS.green}
+                  borderColor="gray.300"
+                  value={dateOfEmployment.toLocaleDateString()}
+                  isReadOnly
+                  placeholder="Select Date"
+                />
+              </TouchableOpacity>
+              {showDatePicker && (
+                <DateTimePicker
+                  value={dateOfEmployment}
+                  mode="date"
+                  onChange={onDateChange}
+                />
+              )}
+
+              <Text fontSize="sm" color="black">Position</Text>
+              <Input
+                variant="filled"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Enter Position"
+                value={position}
+                onChangeText={setPosition}
+              />
+
+              <Text fontSize="sm" color="black">Employment Type</Text>
+              <Select
+                selectedValue={employmentType}
+                minWidth="100%"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Select Employment Type"
+                onValueChange={(itemValue) => setEmploymentType(itemValue)}
+                _selectedItem={{
+                  bg: "teal.600",
+                  endIcon: (
+                    <FastImage
+                      source={icons.right_arrow}
+                      style={{ width: 20, height: 20 }}
+                      tintColor="white"
+                    />
+                  ),
+                }}
               >
-                {key.split(/(?=[A-Z])/).join(" ")}
-              </Checkbox>
-            ))}
-          </VStack>
+                <Select.Item label="Permanent" value="Permanent" />
+                <Select.Item label="Contractual" value="Contractual" />
+              </Select>
 
-          <Text style={styles.label}>Payment Rates</Text>
-          <Input
-            variant="unstyled"
-            value={formData.paymentRates}
-            onChangeText={(text) => setFormData({ ...formData, paymentRates: text })}
-            keyboardType="numeric"
-            style={styles.input}
-            backgroundColor="#e8f5e9"
-          />
-        </View>
+              <Text fontSize="sm" color="black">Working Hours</Text>
+              <Select
+                selectedValue={workingHours}
+                minWidth="100%"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Select Working Hours"
+                onValueChange={(itemValue) => setWorkingHours(itemValue)}
+                _selectedItem={{
+                  bg: "teal.600",
+                  endIcon: (
+                    <FastImage
+                      source={icons.right_arrow}
+                      style={{ width: 20, height: 20 }}
+                      tintColor="white"
+                    />
+                  ),
+                }}
+              >
+                <Select.Item label="Full-Time" value="Full-Time" />
+                <Select.Item label="Part-Time" value="Part-Time" />
+              </Select>
 
-        <Button className="bg-emerald-600 rounded-md h-12 justify-center">
-          <Text className="text-white font-semibold">Submit</Text>
-        </Button>
-        <View className="h-[60px]" />
+              <Text fontSize="sm" color="black">Payment Rate</Text>
+              <Input
+                variant="filled"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Enter Payment Rate"
+                keyboardType="numeric"
+                value={paymentRate}
+                onChangeText={setPaymentRate}
+              />
+
+              <Text fontSize="sm" color="black">Administrative Location</Text>
+              <Input
+                variant="filled"
+                bg={COLORS.green}
+                borderColor="gray.300"
+                placeholder="Administrative Location"
+                value={administrativeLocation}
+                onChangeText={setAdministrativeLocation}
+              />
+
+              <HStack space={3} justifyContent="space-between" mt={4}>
+                <Button
+                  flex={1}
+                  variant="outline"
+                  onPress={() => navigation.goBack()}
+                  _text={{ color: "emerald.600", fontSize: "md" }}
+                  borderColor="emerald.600"
+                  py="3"
+                  borderRadius="lg"
+                >
+                  Back
+                </Button>
+                <Button
+                  flex={1}
+                  onPress={handleSubmit}
+                  backgroundColor={COLORS.green2}
+                  _text={{ fontSize: "md" }}
+                  py="3"
+                  borderRadius="lg"
+                >
+                  Submit
+                </Button>
+              </HStack>
+            </VStack>
+          </Box>
+        </Center>
       </ScrollView>
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.green,
-  },
-  scrollViewContent: {
-    paddingVertical: 20,
-  },
-  formContainer: {
-    backgroundColor: 'white',
-    marginHorizontal: 16,
-    borderRadius: 8,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  headerText: {
-    fontSize: 18,
-    color: 'black',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  label: {
-    fontSize: 16,
-    color: 'black',
-    marginBottom: 4,
-  },
-  subLabel: {
-    fontSize: 14,
-    color: 'gray',
-    marginBottom: 8,
-  },
-  input: {
-    backgroundColor: COLORS.green,
-    height: 40,
-    marginBottom: 5,
-    borderRadius: 8,
-    paddingHorizontal: 10,
-  },
-  inputWithIcon: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: COLORS.green,
-    borderRadius: 8,
-    marginBottom: 12,
-    paddingHorizontal: 10,
-    height: 40, 
-  },
-  inputText: {
-    flex: 1,
-    height: 30, 
-    color: 'black',
-    textAlignVertical: 'center', 
-    fontSize: 16, 
-  },
-  icon: {
-    width: 24,
-    height: 24,
-  },
-  checkbox: {
-    marginBottom: 4,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    marginTop: 20,
-  },
-  backButton: {
-    flex: 1,
-    borderColor: COLORS.green2,
-  },
-  submitButton: {
-    flex: 1,
-    backgroundColor: COLORS.green2,
-  }
-});
+export default AddEmployeeDetails;
